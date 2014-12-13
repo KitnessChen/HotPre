@@ -3,5 +3,6 @@ HotPre
 
 Twitter Hot Topic Prediction
 
-*Dependence:*
-pybrain + tornado + chartkick.py
+*Dependence:*<br>
+- pybrain + tornado
+- bootstrap + jquery + Chart.js
