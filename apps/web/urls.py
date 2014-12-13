@@ -11,13 +11,15 @@ define("port", default=8000, help="run on the given port", type=int)
 
 from web.search import SearchHandler
 from web.main import IndexHandler
+from web.example import ExampleHandler
      
 if __name__ == "__main__":
     tornado.options.parse_command_line()
     app = tornado.web.Application(
         handlers=[
             (r"/", IndexHandler),
-            (r"/search", SearchHandler)
+            (r"/search", SearchHandler),
+            (r"/examples", ExampleHandler)
         ],
         template_path=options.template_path
     )

@@ -21,4 +21,4 @@ class SearchHandler(tornado.web.RequestHandler):
         SearchTopic.search(topic, cur_time)
         DataManage.data_format(topic, cur_time)
         DataManage.data_collect(topic, cur_time)
-        return self.render("success.html")
+        return self.render('success.html')
