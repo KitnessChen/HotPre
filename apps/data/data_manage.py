@@ -12,30 +12,29 @@ from tornado.options import options
 
 
 class DataManage(object):
-    def __init__(self, path, topic):
-        self.path = path
+    def __init__(self, topic, time):
+        self.time = time
         self.topic = topic
         self.data_list = []
         self.user_dict = {}
 
     def data_format(self):
-        for filename in os.listdir(self.path):
-            content = open(self.path + self.topic + "/" + filename, "r")
-            for line in content:
-                try:
-                    data = json.loads(line)
-                except:
+        content = open(os.path.join(options.rowdata_path, '%s/%s.txt' % (self.topic, str(self.time))), "r")
+        for line in content:
+            try:
+                data = json.loads(line)
+            except:
+                continue
+            # print line
+            length = len(data[2])
+            if data[0] in self.user_dict and data[1] in self.user_dict[data[0]]:
                     continue
-                # print line
-                length = len(data[2])
-                if data[0] in self.user_dict and data[1] in self.user_dict[data[0]]:
-                        continue
-                self.data_list.append([data[1], length, data[3], data[4], data[5], data[6], data[7], data[8]])
-                if data[0] not in self.user_dict:
-                    self.user_dict[data[0]] = [data[1]]
-                else:
-                    self.user_dict[data[0]].append(data[1])
-                # print line[0]
+            self.data_list.append([data[1], length, data[3], data[4], data[5], data[6], data[7], data[8]])
+            if data[0] not in self.user_dict:
+                self.user_dict[data[0]] = [data[1]]
+            else:
+                self.user_dict[data[0]].append(data[1])
+            # print line[0]
 
 
     def data_collect(self):

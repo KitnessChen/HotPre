@@ -18,6 +18,7 @@ class SearchTopic(object):
         self.topic = topic
         self.time = time
 
+    @classmethod
     def search(self):
         try:
             f = open(os.path.join(options.rowdata_path, '%s/%s.txt' % (self.topic, str(self.time))), "w")
