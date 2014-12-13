@@ -18,7 +18,7 @@ class DataManage(object):
         self.data_list = []
         self.user_dict = {}
 
-    def dataformat(self):
+    def data_format(self):
         for filename in os.listdir(self.path):
             content = open(self.path + self.topic + "/" + filename, "r")
             for line in content:
@@ -38,7 +38,7 @@ class DataManage(object):
                 # print line[0]
 
 
-    def datacollect(self):
+    def data_collect(self):
         hour_data = {'twitter_count': 0, 'content_len': 0, 'favorites_count': 0, 'retweet_count': 0,
                      'user_favourites_count': 0, 'user_listed_count': 0, 'user_friends_count': 0,
                      'user_followers_count': 0}
