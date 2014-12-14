@@ -6,13 +6,13 @@ import tornado.ioloop
 import tornado.options
 import tornado.web
 
-from tornado.options import define, options
-define("port", default=8000, help="run on the given port", type=int)
+from tornado.options import options
 
 from web.search import SearchHandler
 from web.main import IndexHandler
-from web.example import SampleHandler
+from web.sample import SampleHandler
 
+from define import *
 
 if __name__ == "__main__":
     tornado.options.parse_command_line()
@@ -23,7 +23,8 @@ if __name__ == "__main__":
             (r"/samples", SampleHandler),
             (r"/samples/(\w+)", SampleHandler)
         ],
-        template_path=options.template_path
+        template_path=options.template_path,
+        static_path=options.static_path
     )
     http_server = tornado.httpserver.HTTPServer(app)
     http_server.listen(options.port)

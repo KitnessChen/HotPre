@@ -100,11 +100,10 @@ class DataCollectDAO(object):
 class SampleDAO(object):
     def __init__(self, topic):
         self.topic = self.topic
-        self.samples = ['Google', 'Billboard', 'NiceDay', 'TaylorSwift', 'China', 'HappyYulyulkDay', 'NCTL2014']
 
     @classmethod
     def get_sample(self):
-        filename = options.sample_data_path + "/%s.txt" % self.topic
+        filename = options.sample_path + "/%s.txt" % self.topic
         if not os.path.isfile(filename):
             return None
         data_file = open(filename, "r")
@@ -112,4 +111,5 @@ class SampleDAO(object):
 
     @classmethod
     def get_samples(self):
-        return self.samples
+        samples = ['Google', 'Billboard', 'NiceDay', 'TaylorSwift', 'China', 'HappyYulyulkDay', 'NCTL2014']
+        return samples
