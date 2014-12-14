@@ -46,3 +46,21 @@ h4{
   padding-left: 100px;
   padding-right: 100px;
 }
+
+
+.sample-container{
+    padding-top: 40px;
+    padding-bottom: 30px;
+}
+
+.sample-container a:link{
+    color: #9a9a9a;
+}
+
+.sample-container a:hover{
+    color: #000000;
+}
+
+.sample-container .select-sample .sample-title{
+    padding: 10px;
+}

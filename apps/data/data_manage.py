@@ -20,6 +20,9 @@ class DataManageDAO(object):
 
     @classmethod
     def data_format(self):
+        """
+        format row data from twitter_search results
+        """
         directory = os.path.join(options.rowdata_path, self.topic)
         if not os.path.exists(directory):
             os.makedirs(directory)
@@ -31,7 +34,6 @@ class DataManageDAO(object):
                 data = json.loads(line)
             except:
                 continue
-            # print line
             length = len(data[2])
             if data[0] in self.user_dict and data[1] in self.user_dict[data[0]]:
                     continue
@@ -40,11 +42,13 @@ class DataManageDAO(object):
                 self.user_dict[data[0]] = [data[1]]
             else:
                 self.user_dict[data[0]].append(data[1])
-            # print line[0]
         return True
 
     @classmethod
     def data_collect(self):
+        """
+        generate format_data
+        """
         final_data = []
         cur_time = time.localtime(self.time)
         for data in self.data_dict:
@@ -67,6 +71,7 @@ class DataManageDAO(object):
         directory = os.path.join(options.finaldata_path, self.topic)
         if not os.path.exists(directory):
             os.makedirs(directory)
+
         # data format!!!!
         filename = directory + str(cur_time.tm_mon) + "_" + str(cur_time.tm_mday) + "_" + str(cur_time.tm_hour)
         outfile = open(filename, "w")
@@ -88,6 +93,9 @@ class DataCollectDAO(object):
 
     @classmethod
     def data_collect(self):
+        """
+        collect data from file
+        """
         cur_time = time.localtime()
         directory = os.path.join(options.finaldata_path, self.topic)
         filename = directory + "/%d_%d_%d.txt" % (cur_time.tm_mon, cur_time.tm_mday, cur_time.tm_hour - 8)
@@ -103,6 +111,9 @@ class SampleDAO(object):
 
     @classmethod
     def get_sample(self):
+        """
+        get sample data from file
+        """
         filename = options.sample_path + "/%s.txt" % self.topic
         if not os.path.isfile(filename):
             return None
@@ -111,5 +122,8 @@ class SampleDAO(object):
 
     @classmethod
     def get_samples(self):
+        """
+        get sample topics
+        """
         samples = ['Google', 'Billboard', 'NiceDay', 'TaylorSwift', 'China', 'HappyYulyulkDay', 'NCTL2014']
         return samples
