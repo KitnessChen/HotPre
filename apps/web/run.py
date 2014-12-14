@@ -12,7 +12,8 @@ define("port", default=8000, help="run on the given port", type=int)
 from web.search import SearchHandler
 from web.main import IndexHandler
 from web.example import SampleHandler
-     
+
+
 if __name__ == "__main__":
     tornado.options.parse_command_line()
     app = tornado.web.Application(
