@@ -19,7 +19,8 @@ if __name__ == "__main__":
         handlers=[
             (r"/", IndexHandler),
             (r"/search", SearchHandler),
-            (r"/examples", ExampleHandler)
+            (r"/examples", ExampleHandler),
+            (r"/examples/(\w+)", ExampleHandler)
         ],
         template_path=options.template_path
     )

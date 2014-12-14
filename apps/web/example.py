@@ -7,11 +7,14 @@ import tornado.options
 import tornado.web
 
 
-class ExamplesHandler(tornado.web.RequestHandler):
+from data.data_manage import ExampleDAO
+
+class ExampleHandler(tornado.web.RequestHandler):
     def get(self):
         return self.render('example.html')
 
-    def post(self):
-        return True
-
-    # need function detail
+    def post(self, url_token):
+        if not url_token:
+            return self.render('error.html')
+        data = ExampleDAO.get_example(url_token)
+        return data

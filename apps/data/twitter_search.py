@@ -4,24 +4,28 @@
 import json
 import os
 import sys
+import time
 
 from tornado.options import options
 from TwitterSearch import *
 
 
-reload(sys)
-sys.setdefaultencoding("utf-8")
-
-
-class SearchTopic(object):
+class SearchTopicDAO(object):
     def __init__(self, topic, time):
         self.topic = topic
         self.time = time
 
     @classmethod
     def search(self):
+        cur_time = time.localtime(self.time)
+        finalfile = str(cur_time.tm_mon) + "_" + str(cur_time.tm_mday) + "_" + str(cur_time.tm_hour - 8)
+        if os.path.isfile(os.path.join(options.finaldata_path, self.topic) + finalfile):
+            return False
         try:
-            f = open(os.path.join(options.rowdata_path, '%s/%s.txt' % (self.topic, str(self.time))), "w")
+            directory = os.path.join(options.rowdata_path, self.topic)
+            if not os.path.exists(directory):
+                os.makedirs(directory)
+            f = open(directory + '%s.txt' % str(self.time), "w")
             tso = TwitterSearchOrder() # create a TwitterSearchOrder object
             tso.set_keywords(s) # let's define all words we would like to have a look for
 

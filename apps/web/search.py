@@ -8,8 +8,8 @@ import tornado.ioloop
 import tornado.options
 import tornado.web
 
-from data.twitter_search import SearchTopic
-from data.data_manage import DataManage
+from data.twitter_search import SearchTopicDAO
+from data.data_manage import DataManageDAO, DataCollectDAO
 
 
 class SearchHandler(tornado.web.RequestHandler):
@@ -18,7 +18,8 @@ class SearchHandler(tornado.web.RequestHandler):
         if not topic:
             self.render('error.html')
         cur_time = int(time.time())
-        SearchTopic.search(topic, cur_time)
-        DataManage.data_format(topic, cur_time)
-        DataManage.data_collect(topic, cur_time)
-        return self.render('success.html')
+        data = []
+        if not SearchTopicDAO.search(topic, cur_time):
+            data = DataCollectDAO.data_collect(topic, cur_time)
+        data = DataManageDAO.data_manage(topic, cur_time)
+        return self.render('main.html', data=data)

@@ -11,15 +11,21 @@ import time
 from tornado.options import options
 
 
-class DataManage(object):
+class DataManageDAO(object):
     def __init__(self, topic, time):
         self.time = time
         self.topic = topic
         self.data_list = []
         self.user_dict = {}
 
+    @classmethod
     def data_format(self):
-        content = open(os.path.join(options.rowdata_path, '%s/%s.txt' % (self.topic, str(self.time))), "r")
+        directory = os.path.join(options.rowdata_path, self.topic)
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+        content = open(directory + '%s.txt' % str(self.time), "r")
+        if not content:
+            return None
         for line in content:
             try:
                 data = json.loads(line)
@@ -35,18 +41,20 @@ class DataManage(object):
             else:
                 self.user_dict[data[0]].append(data[1])
             # print line[0]
+        return True
 
-
+    @classmethod
     def data_collect(self):
-        hour_data = {'twitter_count': 0, 'content_len': 0, 'favorites_count': 0, 'retweet_count': 0,
-                     'user_favourites_count': 0, 'user_listed_count': 0, 'user_friends_count': 0,
-                     'user_followers_count': 0}
-        cur_time = time.localtime()
+        final_data = []
+        cur_time = time.localtime(self.time)
         for data in self.data_dict:
-            time_str = data[0]
-            t = parse(time_str)
-            if t.day != cur_time.tm_mday or t.hour != cur_time.tm_hour - 8:
-                continue
+            t = parse(data[0])
+            time_str = datetime(t.year, t.month, t.day, t.hour).isoformat(" ")
+            if time_str not in final_data:
+                final_data[time_str] = {'twitter_count': 0, 'content_len': 0, 'favorites_count': 0,
+                                        'retweet_count': 0, 'user_favourites_count': 0, 'user_listed_count': 0,
+                                        'user_friends_count': 0, 'user_followers_count': 0}
+            hour_data = final_data[time_str]
             hour_data['twitter_count'] += 1
             hour_data['content_len'] += data[1]
             hour_data['favorites_count'] += data[2]
@@ -59,8 +67,44 @@ class DataManage(object):
         directory = os.path.join(options.finaldata_path, self.topic)
         if not os.path.exists(directory):
             os.makedirs(directory)
-        
-        filename = os.path.join(directory, str(t.tm_mon) + "_" + str(t.tm_mday) + "_" + str(cur_time.tm_hour - 8))
+        # data format!!!!
+        filename = directory + str(cur_time.tm_mon) + "_" + str(cur_time.tm_mday) + "_" + str(cur_time.tm_hour)
         outfile = open(filename, "w")
-        for detail in hour_data:
-            outfile.write(detail + ": " + str(hour_data[detail]) + "\n")
+        json.dump(final_data, outfile)
+
+        return final_data
+
+    @classmethod
+    def data_manage(self):
+        if self.data_format():
+            return self.data_collect()
+        return None
+
+
+class DataCollectDAO(object):
+    def __init__(self, topic, time):
+        self.time = time
+        self.topic = topic
+
+    @classmethod
+    def data_collect(self):
+        cur_time = time.localtime()
+        directory = os.path.join(options.finaldata_path, self.topic)
+        filename = directory + "/%d_%d_%d.txt" % (cur_time.tm_mon, cur_time.tm_mday, cur_time.tm_hour - 8)
+        if not os.path.isfile(filename):
+            return None
+        data_file = open(filename, "r")
+        return json.load(data_file)
+
+
+class ExampleDAO(object):
+    def __init__(self, topic):
+        self.topic = self.topic
+
+    @classmethod
+    def get_example(self):
+        filename = options.example_data_path + "/%s.txt" % self.topic
+        if not os.path.isfile(filename):
+            return None
+        data_file = open(filename, "r")
+        return json.load(data_file)
