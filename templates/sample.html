@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Samples - HotPre</title>
+
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/main.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="http://cdn.bootcss.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="http://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="js/jquery-2.1.1.min.js" type="text/javascript"></script>
+
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="js/bootstrap-dropdown.js" type="text/javascript"></script>
+
+  </head>
+
+  <body>
+    <!-- navbar -->
+    <nav class="navbar" role="navigation">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="#">HotPre</a>
+      </div>
+    </nav>
+
+    <!-- main -->
+    <div class="main-container">
+      <div class="container sample-container">
+        <li class="dropdown">
+          <a class="dropdown-toggle samples" data-toggle="dropdown" href="#">
+            <h4>Choose one of our samples<b class="caret"></b></h4>
+          </a>
+          <ul class="dropdown-menu">
+            {% for sample in samples %}
+            <li><a data-toggle="tab" href="/examples/{{sample}}">{{sample}}</a></li>
+            {% end %}
+          </ul>
+      </div>
+    </div>
+
+  </body>
+</html>
