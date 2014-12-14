@@ -8,7 +8,7 @@ a:hover{
     color: #9a9a9a;
 }
 h2{
-    padding: 0px;
+    padding: 0;
     font-weight: 240;
     font-size: 40px;
     margin: 0;
@@ -17,7 +17,7 @@ h2{
 }
 h4{
     padding:0;
-    font-size:26px;
+    font-size:28px;
 }
 
 
@@ -61,6 +61,76 @@ h4{
     color: #000000;
 }
 
+.sample-container .select-sample{
+    margin-left: 30px;
+    margin-right: 30px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
 .sample-container .select-sample .sample-title{
     padding: 10px;
+    padding-left: 15px;
+    font-family: "Myriad Pro";
+}
+
+.sample-container .data-view{
+    display: none;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    margin-left: 30px;
+    margin-right: 30px;
+    border-style: dashed;
+    border-color: #9a9a9a;
+    border-radius: 5px;
+}
+
+.sample-container .data-view .row{
+    margin: 10px;
+    padding-left: 10px;
+}
+
+.sample-container .data-view .row-1 .col-md-3{
+    margin-left: 35px;
+    margin-right: 35px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+    text-align: center;
+    border-radius: 10px;
+    background-color: #D3FEE0;
+}
+
+.sample-container .data-view .row-2 .col-md-3{
+    margin-left: 35px;
+    margin-right: 35px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+    text-align: center;
+    border-radius: 10px;
+    background-color: #FEF2EF;
+}
+
+.sample-container .data-view .row h4{
+    font-size: 23px;
+}
+
+.sample-container .data-view .row p{
+    font-size: 23px;
+    margin-left: 20px;
+    font-style: italic;
+    font-family: "Times New Roman";
+}
+
+.sample-container .chart-container{
+    min-height: 420px;
+    margin-top: 40px;
+    border-radius: 15px;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.sample-container .chart-container .data-chart{
+    min-height: 400px;
 }

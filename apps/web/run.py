@@ -19,6 +19,7 @@ if __name__ == "__main__":
     app = tornado.web.Application(
         handlers=[
             (r"/", IndexHandler),
+            (r"/home", IndexHandler),
             (r"/search", SearchHandler),
             (r"/samples", SampleHandler),
             (r"/samples/(\w+)", SampleHandler)
