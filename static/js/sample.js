@@ -11,7 +11,7 @@ $(document).ready(function(){
         $('div.select-sample').removeClass('dropdown');
         $('div.select-sample').css('border-radius', '4px');
         $('div.select-sample').css('border-style', 'dashed');
-        $('div.select-sample').css('border-color', '#d8f2f2');
+        $('div.select-sample').css('border-color', '#C1EAEA');
 
         //post request
         var url = $(this).attr('href');
