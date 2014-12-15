@@ -10,9 +10,14 @@ Twitter Hot Topic Prediction Platform
 
 Getting Start
 -----------------
-To run this platform, you need `git` in your path.
+To get this platform, you need `git` in your path.
 
-To build this platform, running the following command:
+Get HotPre by the following command:
+```
+$ git clone https://github.com/KitnessChen/HotPre.git
+```
+
+To start using this platform, running the following command:
 ```
 $ run.py
 ```
