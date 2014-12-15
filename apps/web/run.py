@@ -11,6 +11,7 @@ from tornado.options import options
 from web.search import SearchHandler
 from web.main import IndexHandler
 from web.sample import SampleHandler
+from predict.main import PredictHandler
 
 from define import *
 
@@ -20,9 +21,10 @@ if __name__ == "__main__":
         handlers=[
             (r"/", IndexHandler),
             (r"/home", IndexHandler),
-            (r"/search", SearchHandler),
+            (r"/predicit", PredictHandler),
             (r"/samples", SampleHandler),
-            (r"/samples/(\w+)", SampleHandler)
+            (r"/samples/(\w+)", SampleHandler),
+            (r"/search", SearchHandler)
         ],
         template_path=options.template_path,
         static_path=options.static_path
