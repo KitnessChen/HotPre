@@ -5,7 +5,8 @@ Twitter Hot Topic Prediction Platform
 
 *Dependence:*
 - pybrain + tornado
-- bootstrap + jquery + Chartkick.js
+- bootstrap + jquery
+- gh-fork-ribbon.css + Chartkick.js
 
 Getting Start
 -----------------
