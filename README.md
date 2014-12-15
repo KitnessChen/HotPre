@@ -4,11 +4,11 @@ HotPre
 Twitter Hot Topic Prediction Platform
 
 **Dependence:**
-- [pybrain](http://www.pybrain.org/) + [tornado](http://www.tornadoweb.org/)
-- [bootstrap](http://www.bootstrap.com/) + [jquery](http://jquery.com/)
-- [gh-fork-ribbon.css](http://simonwhitaker.github.io/github-fork-ribbon-css/) + [Chartkick.js](http://chartkick.com/)
+- [PyBrain](http://www.pybrain.org/) + [TwitterSearch](https://twittersearch.readthedocs.org/en/latest/) + [Tornado](http://www.tornadoweb.org/)
+- [Bootstrap](http://www.bootstrap.com/) + [jQuery](http://jquery.com/)
+- [Gh-fork-ribbon.css](http://simonwhitaker.github.io/github-fork-ribbon-css/) + [Chartkick.js](http://chartkick.com/)
 
-You can find them in *github*.
+You can find all of them in *github*.
 
 Getting Start
 -----------------
