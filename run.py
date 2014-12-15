@@ -8,12 +8,12 @@ import tornado.web
 
 from tornado.options import options
 
-from web.search import SearchHandler
-from web.main import IndexHandler
-from web.sample import SampleHandler
-from predict.main import PredictHandler
+from apps.web.search import SearchHandler
+from apps.web.main import IndexHandler
+from apps.web.sample import SampleHandler
+from apps.predict.main import PredictHandler
 
-from define import *
+from config.define import *
 
 if __name__ == "__main__":
     tornado.options.parse_command_line()

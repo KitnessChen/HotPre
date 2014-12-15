@@ -8,8 +8,8 @@ import tornado.ioloop
 import tornado.options
 import tornado.web
 
-from data.twitter_search import SearchTopicDAO
-from data.data_manage import DataManageDAO, DataCollectDAO
+from apps.data.twitter_search import SearchTopicDAO
+from apps.data.data_manage import DataManageDAO, DataCollectDAO
 
 
 class SearchHandler(tornado.web.RequestHandler):

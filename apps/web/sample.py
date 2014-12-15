@@ -6,7 +6,7 @@ import tornado.ioloop
 import tornado.options
 import tornado.web
 
-from data.data_manage import SampleDAO
+from apps.data.data_manage import SampleDAO
 
 
 class SampleHandler(tornado.web.RequestHandler):
