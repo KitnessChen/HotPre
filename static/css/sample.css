@@ -33,13 +33,25 @@ h4{
     font-size: 32px;
     color: #fff;
 }
-.navbar .navbar-form .form-group input{
+.navbar .navbar-form .form-group > input{
     font-size: 18px;
 }
-.navbar .navbar-form button{
+.navbar .navbar-form > button{
     font-size: 16px;
 }
-
+.navbar .navbar-collapse .nav{
+    font-size: 20px;
+}
+.navbar .navbar-collapse .nav > li > a{
+    color: #fff;
+}
+.navbar .navbar-collapse .nav > li > a:hover{
+    color: #555;
+}
+.navbar .navbar-collapse .nav > li > a:active{
+    color: #fff;
+    text-decoration: none;
+}
 
 .main-container {
   padding-top: 10px;
@@ -112,11 +124,11 @@ h4{
     background-color: #FEF2EF;
 }
 
-.sample-container .data-view .row h4{
+.sample-container .data-view .row > h4{
     font-size: 23px;
 }
 
-.sample-container .data-view .row p{
+.sample-container .data-view .row > p{
     font-size: 23px;
     margin-left: 20px;
     font-style: italic;
@@ -124,6 +136,7 @@ h4{
 }
 
 .sample-container .chart-container{
+    display: none;
     min-height: 420px;
     margin-top: 40px;
     border-radius: 15px;

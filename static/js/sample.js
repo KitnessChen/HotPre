@@ -22,6 +22,7 @@ $(document).ready(function(){
             data: {'keyword': item_name},
             success: function(data){
                 $('div.data-view').css('display', 'block');
+                $('div.chart-container').css('display', 'block');
                 data = [
                 {"name":"test 1", "data": {"2013-02-10 00:00:00 -0800": 3, "2013-02-17 00:00:00 -0800": 4}},
                 {"name":"test 2", "data": {"2013-02-10 00:00:00 -0800": 5, "2013-02-17 00:00:00 -0800": 3}},
@@ -32,6 +33,7 @@ $(document).ready(function(){
             },
             error: function(msg){
                 $('div.data-view').css('display', 'block');
+                $('div.chart-container').css('display', 'block');
                 //for test!!!!
                 data = [
                 {"name":"test 1", "data": {"2013-02-10 00:00:00 -0800": 3, "2013-02-17 00:00:00 -0800": 4}},
