@@ -12,6 +12,18 @@ from tornado.options import options
 
 
 class DataManageDAO(object):
+
+    DATA_TYPES = [
+    'twitter_count',
+    'content_len',
+    'favorites_count',
+    'retweet_count',
+    'user_favourites_count',
+    'user_listed_count',
+    'user_friends_count',
+    'user_followers_count'
+    ]
+
     def __init__(self, topic, time):
         self.time = time
         self.topic = topic
@@ -47,18 +59,19 @@ class DataManageDAO(object):
     @classmethod
     def data_collect(self):
         """
-        generate format_data
+        generate format_data (/hour)
         """
-        final_data = []
+        data_dict = {}
+        final_list = []
         cur_time = time.localtime(self.time)
         for data in self.data_dict:
             t = parse(data[0])
             time_str = datetime(t.year, t.month, t.day, t.hour).isoformat(" ")
-            if time_str not in final_data:
-                final_data[time_str] = {'twitter_count': 0, 'content_len': 0, 'favorites_count': 0,
+            if time_str not in data_dict:
+                data_dict[time_str] = {'twitter_count': 0, 'content_len': 0, 'favorites_count': 0,
                                         'retweet_count': 0, 'user_favourites_count': 0, 'user_listed_count': 0,
                                         'user_friends_count': 0, 'user_followers_count': 0}
-            hour_data = final_data[time_str]
+            hour_data = data_dict[time_str]
             hour_data['twitter_count'] += 1
             hour_data['content_len'] += data[1]
             hour_data['favorites_count'] += data[2]
@@ -72,12 +85,20 @@ class DataManageDAO(object):
         if not os.path.exists(directory):
             os.makedirs(directory)
 
-        # data format!!!!
+        for _type in DataManageDAO.DATA_TYPES:
+            temp_dict = {'name': _type, "data": {}}
+            for hour in data_dict:
+                if _type != 'twitter_count':
+                    temp_dict['data'][hour] = data_dict[hour][_type] / data_dict[hour]['twitter_count']
+                else:
+                    temp_dict['data'][hour] = data_dict[hour][_type]
+            final_list.append(temp_dict)
+
         filename = directory + str(cur_time.tm_mon) + "_" + str(cur_time.tm_mday) + "_" + str(cur_time.tm_hour)
         outfile = open(filename, "w")
-        json.dump(final_data, outfile)
+        json.dump(final_list, outfile)
 
-        return final_data
+        return final_list
 
     @classmethod
     def data_manage(self):
@@ -106,6 +127,17 @@ class DataCollectDAO(object):
 
 
 class SampleDAO(object):
+
+    SAMPLES = [
+    'Google',
+    'Billboard',
+    'NiceDay',
+    'TaylorSwift',
+    'China',
+    'HappyYulyulkDay',
+    'NCTL2014'
+    ]
+
     def __init__(self, topic):
         self.topic = self.topic
 
@@ -125,5 +157,4 @@ class SampleDAO(object):
         """
         get sample topics
         """
-        samples = ['Google', 'Billboard', 'NiceDay', 'TaylorSwift', 'China', 'HappyYulyulkDay', 'NCTL2014']
-        return samples
+        return SampleDAO.SAMPLES
