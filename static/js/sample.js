@@ -28,8 +28,7 @@ $(document).ready(function(){
                 {"name":"test 3", "data": {"2013-02-10 00:00:00 -0800": 6, "2013-02-17 00:00:00 -0800": 9}},
                 {"name":"test 4", "data": {"2013-02-10 00:00:00 -0800": 2, "2013-02-17 00:00:00 -0800": 3}}
                 ];
-                new Chartkick.LineChart("data-chart", data,
-                                        {"colors": [], "library": {"backgroundColor": "#FFFDE8"}});
+                new Chartkick.LineChart("data-chart", data);
             },
             error: function(msg){
                 $('div.data-view').css('display', 'block');
@@ -40,8 +39,7 @@ $(document).ready(function(){
                 {"name":"test 3", "data": {"2013-02-10 00:00:00 -0800": 6, "2013-02-17 00:00:00 -0800": 9}},
                 {"name":"test 4", "data": {"2013-02-10 00:00:00 -0800": 2, "2013-02-17 00:00:00 -0800": 3}}
                 ];
-                new Chartkick.LineChart("data-chart", data,
-                                        {"colors": [], "library": {"backgroundColor": "#FFFDE8"}});
+                new Chartkick.LineChart("data-chart", data);
             }
         });
     });
