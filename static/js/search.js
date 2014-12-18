@@ -7,6 +7,10 @@ $(document).ready(function(){
         dataType: 'json',
         data: {'cur_time': cur_time},
         success: function(res){
+            $('div.data-view').css('display', 'block');
+            $('div.data-chart').css('display', 'block');
+            $('button#predict').css('display', 'block');
+            console.info('success');
             for(var feature in res['msg']){
                 if(feature != 'chart'){
                     cur_content = $('h4#'+ feature).text();

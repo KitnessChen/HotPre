@@ -18,14 +18,13 @@ class SearchTopicDAO(object):
 
     def search(self):
         rowfile = str(self.cur_time.tm_mon) + "_" + str(self.cur_time.tm_mday) + "_" + str(self.cur_time.tm_hour) + '.txt'
-        if os.path.isfile(os.path.join(options.rowdata_path, self.keyword) + '/' + rowfile):
+        directory = os.path.join(options.rowdata_path, self.keyword)
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+        if os.path.isfile(directory + '/' + rowfile):
             return False
         try:
-            directory = os.path.join(options.rowdata_path, self.keyword)
-            if not os.path.exists(directory):
-                os.makedirs(directory)
-            filename = directory + '/' + str(self.cur_time.tm_mon) + "_" + str(self.cur_time.tm_mday) + "_" + str(self.cur_time.tm_hour) + '.txt'
-            f = open(filename, "w")
+            f = open(directory + '/' + rowfile, "w")
             tso = TwitterSearchOrder() # create a TwitterSearchOrder object
             tso.set_keywords([self.keyword]) # let's define all words we would like to have a look for
 
@@ -47,3 +46,5 @@ class SearchTopicDAO(object):
 
         except TwitterSearchException as e: # catch all those ugly errors
             logging.info(e)
+
+        return True
