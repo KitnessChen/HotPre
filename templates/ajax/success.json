@@ -1,0 +1,2 @@
+{"r":0,"msg":{% raw json_encode(msg) %}}
+

@@ -14,12 +14,12 @@ from apps.data.data_manage import DataManageDAO, DataCollectDAO
 
 class SearchHandler(tornado.web.RequestHandler):
     def get(self):
-        topic = self.get_argument('keyword', None)
-        if not topic:
+        keyword = self.get_argument('keyword', None)
+        if not keyword:
             self.render('error.html')
         cur_time = int(time.time())
         data = []
-        if not SearchTopicDAO.search(topic, cur_time):
-            data = DataCollectDAO.data_collect(topic, cur_time)
-        data = DataManageDAO.data_manage(topic, cur_time)
+        if not SearchTopicDAO(keyword, cur_time).search():
+            data = DataCollectDAO(keyword, cur_time).data_collect()
+        data = DataManageDAO(keyword, cur_time).data_manage()
         return self.render('main.html', data=data)

@@ -14,30 +14,26 @@ $(document).ready(function(){
         $('div.select-sample').css('border-color', '#C1EAEA');
 
         //post request
-        var url = $(this).attr('href');
+        var url = '/samples/' + item_name;
         $.ajax({
             url: url,
-            type: 'post',
+            type: 'get',
             dataType: 'json',
-            data: {'keyword': item_name},
-            success: function(data){
+            data: {},
+            success: function(res){
                 $('div.data-view').css('display', 'block');
                 $('div.data-chart').css('display', 'block');
                 $('button#predict').css('display', 'block');
-                new Chartkick.LineChart("data-chart", data);
+                for(var feature in res['msg']){
+                    if(feature != 'chart'){
+                        cur_content = $('h4#'+ feature).text();
+                        $('h4#'+ feature).text(cur_content + ': ' + res['msg'][feature]);
+                    }
+                }
+                new Chartkick.LineChart("data-chart", res['msg']['chart']);
             },
-            error: function(msg){
-                $('div.data-view').css('display', 'block');
-                $('div.data-chart').css('display', 'block');
-                $('button#predict').css('display', 'block');
-                //for test!!!!
-                data = [
-                {"name":"test 1", "data": {"2013-02-10 00:00:00 -0800": 3, "2013-02-17 00:00:00 -0800": 4}},
-                {"name":"test 2", "data": {"2013-02-10 00:00:00 -0800": 5, "2013-02-17 00:00:00 -0800": 3}},
-                {"name":"test 3", "data": {"2013-02-10 00:00:00 -0800": 6, "2013-02-17 00:00:00 -0800": 9}},
-                {"name":"test 4", "data": {"2013-02-10 00:00:00 -0800": 2, "2013-02-17 00:00:00 -0800": 3}}
-                ];
-                new Chartkick.LineChart("data-chart", data);
+            error: function(res){
+                console.log(res['error']);
             }
         });
     });

@@ -11,18 +11,18 @@ from TwitterSearch import *
 
 
 class SearchTopicDAO(object):
-    def __init__(self, topic, time):
-        self.topic = topic
+    def __init__(self, keyword, time):
+        self.keyword = keyword
         self.time = time
 
     @classmethod
     def search(self):
         cur_time = time.localtime(self.time)
         finalfile = str(cur_time.tm_mon) + "_" + str(cur_time.tm_mday) + "_" + str(cur_time.tm_hour - 8)
-        if os.path.isfile(os.path.join(options.finaldata_path, self.topic) + finalfile):
+        if os.path.isfile(os.path.join(options.finaldata_path, self.keyword) + finalfile):
             return False
         try:
-            directory = os.path.join(options.rowdata_path, self.topic)
+            directory = os.path.join(options.rowdata_path, self.keyword)
             if not os.path.exists(directory):
                 os.makedirs(directory)
             f = open(directory + '%s.txt' % str(self.time), "w")

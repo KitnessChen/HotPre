@@ -14,19 +14,19 @@ from tornado.options import options
 class DataManageDAO(object):
 
     DATA_TYPES = [
-    'twitter_count',
+    'twitters',
     'content_len',
-    'favorites_count',
-    'retweet_count',
-    'user_favourites_count',
-    'user_listed_count',
-    'user_friends_count',
-    'user_followers_count'
+    'favorites',
+    'retweets',
+    'user_favourites',
+    'user_lists',
+    'user_friends',
+    'user_followers'
     ]
 
-    def __init__(self, topic, time):
+    def __init__(self, keyword, time):
         self.time = time
-        self.topic = topic
+        self.keyword = keyword
         self.data_list = []
         self.user_dict = {}
 
@@ -35,7 +35,7 @@ class DataManageDAO(object):
         """
         format row data from twitter_search results
         """
-        directory = os.path.join(options.rowdata_path, self.topic)
+        directory = os.path.join(options.rowdata_path, self.keyword)
         if not os.path.exists(directory):
             os.makedirs(directory)
         content = open(directory + '%s.txt' % str(self.time), "r")
@@ -68,28 +68,28 @@ class DataManageDAO(object):
             t = parse(data[0])
             time_str = datetime(t.year, t.month, t.day, t.hour).isoformat(" ")
             if time_str not in data_dict:
-                data_dict[time_str] = {'twitter_count': 0, 'content_len': 0, 'favorites_count': 0,
-                                        'retweet_count': 0, 'user_favourites_count': 0, 'user_listed_count': 0,
-                                        'user_friends_count': 0, 'user_followers_count': 0}
+                data_dict[time_str] = {'twitters': 0, 'content_len': 0, 'favorites': 0,
+                                        'retweets': 0, 'user_favourites': 0, 'user_lists': 0,
+                                        'user_friends': 0, 'user_followers': 0}
             hour_data = data_dict[time_str]
-            hour_data['twitter_count'] += 1
+            hour_data['twitters'] += 1
             hour_data['content_len'] += data[1]
-            hour_data['favorites_count'] += data[2]
-            hour_data['retweet_count'] += data[3]
-            hour_data['user_favourites_count'] += data[4]
-            hour_data['user_listed_count'] += data[5]
-            hour_data['user_friends_count'] += data[6]
-            hour_data['user_followers_count'] += data[7]
+            hour_data['favorites'] += data[2]
+            hour_data['retweets'] += data[3]
+            hour_data['user_favourites'] += data[4]
+            hour_data['user_lists'] += data[5]
+            hour_data['user_friends'] += data[6]
+            hour_data['user_followers'] += data[7]
 
-        directory = os.path.join(options.finaldata_path, self.topic)
+        directory = os.path.join(options.finaldata_path, self.keyword)
         if not os.path.exists(directory):
             os.makedirs(directory)
 
         for _type in DataManageDAO.DATA_TYPES:
             temp_dict = {'name': _type, "data": {}}
             for hour in data_dict:
-                if _type != 'twitter_count':
-                    temp_dict['data'][hour] = data_dict[hour][_type] / data_dict[hour]['twitter_count']
+                if _type != 'twitters':
+                    temp_dict['data'][hour] = data_dict[hour][_type] / data_dict[hour]['twitters']
                 else:
                     temp_dict['data'][hour] = data_dict[hour][_type]
             final_list.append(temp_dict)
@@ -108,9 +108,9 @@ class DataManageDAO(object):
 
 
 class DataCollectDAO(object):
-    def __init__(self, topic, time):
+    def __init__(self, keyword, time):
         self.time = time
-        self.topic = topic
+        self.keyword = keyword
 
     @classmethod
     def data_collect(self):
@@ -118,7 +118,7 @@ class DataCollectDAO(object):
         collect data from file
         """
         cur_time = time.localtime()
-        directory = os.path.join(options.finaldata_path, self.topic)
+        directory = os.path.join(options.finaldata_path, self.keyword)
         filename = directory + "/%d_%d_%d.txt" % (cur_time.tm_mon, cur_time.tm_mday, cur_time.tm_hour - 8)
         if not os.path.isfile(filename):
             return None
@@ -138,15 +138,22 @@ class SampleDAO(object):
     'NCTL2014'
     ]
 
-    def __init__(self, topic):
-        self.topic = self.topic
+    FEATURES = {
+    'twitters': 0,
+    'favorites': 0,
+    'retweets': 0,
+    'user_favourites': 1,
+    'user_lists': 1,
+    'user_friends': 1,
+    'user_followers': 1
+    }
 
     @classmethod
-    def get_sample(self):
+    def get_sample(self, keyword):
         """
         get sample data from file
         """
-        filename = options.sample_path + "/%s.txt" % self.topic
+        filename = options.sample_path + "/%s.txt" % keyword
         if not os.path.isfile(filename):
             return None
         data_file = open(filename, "r")
@@ -155,6 +162,13 @@ class SampleDAO(object):
     @classmethod
     def get_samples(self):
         """
-        get sample topics
+        get sample keywords
         """
         return SampleDAO.SAMPLES
+
+    @classmethod
+    def get_features(self):
+        """
+        get sample features
+        """
+        return SampleDAO.FEATURES

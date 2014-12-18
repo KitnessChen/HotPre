@@ -1,21 +1,21 @@
 #!/usr/bin/env python
 # coding=utf-8
 
-import tornado.httpserver
-import tornado.ioloop
-import tornado.options
-import tornado.web
-
 from apps.data.data_manage import SampleDAO
+from apps.web.main import BaseHandler
 
-
-class SampleHandler(tornado.web.RequestHandler):
+class SampleHandler(BaseHandler):
     def get(self):
         samples = SampleDAO.get_samples()
-        return self.render('sample.html', samples=samples)
+        features = SampleDAO.get_features()
+        if not samples:
+            return self.render_json('ajax/fail.json', error=u'')
+        return self.render('sample.html', samples=samples, features=features)
 
-    def post(self, url_token):
+
+class SampleDetailHandler(BaseHandler):
+    def get(self, url_token=None):
         if not url_token:
-            return self.render('error.html')
-        data = SampleDAO.get_sample(url_token)
-        return data
+            return self.render_json('ajax/fail.json', error=u'')
+        data = SampleDAO.get_sample(keyword=url_token)
+        return self.render_json('ajax/success.json', msg=data)

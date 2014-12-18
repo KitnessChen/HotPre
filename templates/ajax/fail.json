@@ -1,0 +1,10 @@
+{
+    "r": 1,
+    "errcode": {{ error.code }},
+    {% if hasattr(error, 'field') %}
+    "msg": {% raw json_encode({error.field: error.msg}) %}
+    {% else %}
+    "msg": {% raw json_encode(error.msg) %}
+    {% end %}
+}
+

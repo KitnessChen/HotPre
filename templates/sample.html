@@ -53,36 +53,29 @@
           </a>
           <ul class="dropdown-menu">
             {% for sample in samples %}
-            <li><a class="sample-item" id="{{sample}}" data-toggle="tab" href="/examples/{{sample}}">{{sample}}</a></li>
+            <li><a class="sample-item" id="{{sample}}" data-toggle="tab" href="#">{{sample}}</a></li>
             {% end %}
           </ul>
         </div>
         <div class="data-view" id="data-view">
           <div class="row row-1">
-            <div class="col-md-3" id="tweets">
-              <h4>Tweets: </h4>
+            {% for feature in features %}
+            {% if not features[feature]%}
+            <div class="col-md-3">
+              <h4 id="{{feature}}">{{feature}}</h4>
             </div>
-            <div class="col-md-3" id="retweets">
-              <h4>Retweets: </h4>
-            </div>
-            <div class="col-md-3" id="favourites">
-              <h4>Favourites: </h4>
-            </div>
+            {% end %}
+            {% end %}
           </div>
           <div class="row row-2">
             <meta content="user info">
-            <div class="col-md-3" id="user-favourites">
-              <h4>Favourites: </h4>
+            {% for feature in features %}
+            {% if features[feature]%}
+            <div class="col-md-3">
+              <h4 id="{{feature}}">{{feature[5:]}} </h4>
             </div>
-            <div class="col-md-3" id="user-followers">
-              <h4>Followers: </h4>
-            </div>
-            <div class="col-md-3" id="user-friends">
-              <h4>Friends: </h4>
-            </div>
-            <div class="col-md-3" id="user-lists">
-              <h4>Lists: </h4>
-            </div>
+            {% end %}
+            {% end %}
           </div>
         </div>
         <div class="chart-container">
