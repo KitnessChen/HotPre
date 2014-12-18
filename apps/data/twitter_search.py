@@ -2,6 +2,7 @@
 # coding=utf-8
 
 import json
+import logging
 import os
 import sys
 import time
@@ -15,19 +16,18 @@ class SearchTopicDAO(object):
         self.keyword = keyword
         self.time = time
 
-    @classmethod
     def search(self):
         cur_time = time.localtime(self.time)
-        finalfile = str(cur_time.tm_mon) + "_" + str(cur_time.tm_mday) + "_" + str(cur_time.tm_hour - 8)
-        if os.path.isfile(os.path.join(options.finaldata_path, self.keyword) + finalfile):
+        finalfile = str(cur_time.tm_mon) + "_" + str(cur_time.tm_mday) + "_" + str(cur_time.tm_hour - 8) + '.txt'
+        if os.path.isfile(os.path.join(options.finaldata_path, self.keyword) + '/' + finalfile):
             return False
         try:
             directory = os.path.join(options.rowdata_path, self.keyword)
             if not os.path.exists(directory):
                 os.makedirs(directory)
-            f = open(directory + '%s.txt' % str(self.time), "w")
+            f = open(directory + '/%s.txt' % str(self.time), "w")
             tso = TwitterSearchOrder() # create a TwitterSearchOrder object
-            tso.set_keywords(s) # let's define all words we would like to have a look for
+            tso.set_keywords([self.keyword]) # let's define all words we would like to have a look for
 
             # it's about time to create TwitterSearch object again
             ts = TwitterSearch(
@@ -46,4 +46,4 @@ class SearchTopicDAO(object):
                 f.write(l + '\n')
 
         except TwitterSearchException as e: # catch all those ugly errors
-            print(e)
+            logging.info(e)

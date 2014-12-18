@@ -8,7 +8,7 @@ a:hover{
     color: #9a9a9a;
 }
 h2{
-    padding: 0px;
+    padding: 0;
     font-weight: 240;
     font-size: 40px;
     margin: 0;
@@ -17,7 +17,7 @@ h2{
 }
 h4{
     padding:0;
-    font-size:26px;
+    font-size:28px;
 }
 
 
@@ -33,11 +33,24 @@ h4{
     font-size: 32px;
     color: #fff;
 }
-.navbar .navbar-form .form-group input{
+.navbar .navbar-form .form-group > input{
     font-size: 18px;
 }
-.navbar .navbar-form button{
+.navbar .navbar-form > button{
     font-size: 16px;
+}
+.navbar .navbar-collapse .nav{
+    font-size: 20px;
+}
+.navbar .navbar-collapse .nav > li > a{
+    color: #fff;
+}
+.navbar .navbar-collapse .nav > li > a:hover{
+    color: #555;
+}
+.navbar .navbar-collapse .nav > li > a:active{
+    color: #b2e5e5;
+    text-decoration: none;
 }
 
 
@@ -45,4 +58,110 @@ h4{
   padding-top: 10px;
   padding-left: 100px;
   padding-right: 100px;
+}
+
+.search-container{
+    padding-top: 40px;
+    padding-bottom: 30px;
+}
+
+.search-container a:link{
+    color: #9a9a9a;
+}
+
+.search-container a:hover{
+    color: #000000;
+}
+
+.search-container .search-result{
+    margin-left: 30px;
+    margin-right: 30px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 4px;
+    border-style: dashed;
+    border-color: #C1EAEA;
+}
+
+.search-container .search-result .keyword-title{
+    padding: 10px;
+    padding-left: 15px;
+    font-family: "Myriad Pro";
+    font-size: 35px;
+}
+
+.search-container .data-view{
+    margin-top: 40px;
+    margin-bottom: 40px;
+    margin-left: 30px;
+    margin-right: 30px;
+    border-style: dashed;
+    border-color: #9a9a9a;
+    border-radius: 5px;
+}
+
+
+.search-container .data-view .row{
+    margin: 10px;
+    padding-left: 10px;
+}
+
+.search-container .data-view .row-1 .col-md-3{
+    margin-left: 35px;
+    margin-right: 35px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+    text-align: center;
+    border-radius: 10px;
+    background-color: #E2FEEB;
+    text-transform: capitalize;
+}
+
+.search-container .data-view .row-2 .col-md-3{
+    margin-left: 35px;
+    margin-right: 35px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+    text-align: center;
+    border-radius: 10px;
+    background-color: #FEF2EF;
+    text-transform: capitalize;
+}
+
+.search-container .data-view .row > h4{
+    font-size: 23px;
+}
+.search-container .data-view .row > p{
+    font-size: 23px;
+    margin-left: 20px;
+    font-style: italic;
+    font-family: "Times New Roman";
+}
+
+.search-container .chart-container{
+    min-height: 420px;
+    margin-top: 40px;
+    border-radius: 15px;
+    padding-left: 30px;
+    padding-right: 30px;
+}
+.search-container .chart-container .btn-default{
+    text-align: center;
+    vertical-align: middle;
+    background-color: #b2e5e5;
+    color: #fff;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-bottom: 40px;
+    margin-top: 80px;
+    border-width: 0;
+    font-size: 24px;
+}
+.search-container .chart-container .data-chart{
+    min-height: 400px;
+    border-color: #9a9a9a;
+    border-radius: 8px;
+    border-style: dashed;
 }

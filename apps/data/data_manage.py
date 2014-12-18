@@ -24,13 +24,22 @@ class DataManageDAO(object):
     'user_followers'
     ]
 
+    FEATURES = {
+    'twitters': 0,
+    'favorites': 0,
+    'retweets': 0,
+    'user_favourites': 1,
+    'user_lists': 1,
+    'user_friends': 1,
+    'user_followers': 1
+    }
+
     def __init__(self, keyword, time):
         self.time = time
         self.keyword = keyword
         self.data_list = []
         self.user_dict = {}
 
-    @classmethod
     def data_format(self):
         """
         format row data from twitter_search results
@@ -38,7 +47,7 @@ class DataManageDAO(object):
         directory = os.path.join(options.rowdata_path, self.keyword)
         if not os.path.exists(directory):
             os.makedirs(directory)
-        content = open(directory + '%s.txt' % str(self.time), "r")
+        content = open(directory + '/%s.txt' % str(self.time), "r")
         if not content:
             return None
         for line in content:
@@ -56,30 +65,25 @@ class DataManageDAO(object):
                 self.user_dict[data[0]].append(data[1])
         return True
 
-    @classmethod
     def data_collect(self):
         """
         generate format_data (/hour)
         """
         data_dict = {}
         final_list = []
+        final_dict = {}
         cur_time = time.localtime(self.time)
-        for data in self.data_dict:
+        for data in self.data_list:
             t = parse(data[0])
             time_str = datetime(t.year, t.month, t.day, t.hour).isoformat(" ")
             if time_str not in data_dict:
-                data_dict[time_str] = {'twitters': 0, 'content_len': 0, 'favorites': 0,
-                                        'retweets': 0, 'user_favourites': 0, 'user_lists': 0,
-                                        'user_friends': 0, 'user_followers': 0}
+                data_dict[time_str] = {feature: 0 for feature in DataManageDAO.DATA_TYPES}
             hour_data = data_dict[time_str]
-            hour_data['twitters'] += 1
-            hour_data['content_len'] += data[1]
-            hour_data['favorites'] += data[2]
-            hour_data['retweets'] += data[3]
-            hour_data['user_favourites'] += data[4]
-            hour_data['user_lists'] += data[5]
-            hour_data['user_friends'] += data[6]
-            hour_data['user_followers'] += data[7]
+            for i, feature in enumerate(DataManageDAO.DATA_TYPES):
+                if feature == 'twitters':
+                    hour_data[feature] += 1
+                else:
+                    hour_data[feature] += data[i]
 
         directory = os.path.join(options.finaldata_path, self.keyword)
         if not os.path.exists(directory):
@@ -93,18 +97,26 @@ class DataManageDAO(object):
                 else:
                     temp_dict['data'][hour] = data_dict[hour][_type]
             final_list.append(temp_dict)
+            temp = 0
+            for hour in data_dict:
+                temp += data_dict[hour][_type]
+            final_dict[_type] = temp
+        final_dict['chart'] = final_list
 
-        filename = directory + str(cur_time.tm_mon) + "_" + str(cur_time.tm_mday) + "_" + str(cur_time.tm_hour)
+        filename = directory + '/' + str(cur_time.tm_mon) + "_" + str(cur_time.tm_mday) + "_" + str(cur_time.tm_hour) + '.txt'
         outfile = open(filename, "w")
-        json.dump(final_list, outfile)
+        json.dump(final_dict, outfile)
 
         return final_list
 
-    @classmethod
     def data_manage(self):
         if self.data_format():
             return self.data_collect()
         return None
+
+    @classmethod
+    def get_features(self):
+        return DataManageDAO.FEATURES
 
 
 class DataCollectDAO(object):
@@ -112,7 +124,6 @@ class DataCollectDAO(object):
         self.time = time
         self.keyword = keyword
 
-    @classmethod
     def data_collect(self):
         """
         collect data from file
