@@ -48,14 +48,14 @@
     <div class="main-container">
       <div class="search-container">
         <div class="search-result">
-          <h4 class="keyword-title">{{keyword}}</h4>
+          <h4 class="keyword-title" data-time="{{cur_time}}">{{keyword}}</h4>
         </div>
         <div class="data-view" id="data-view">
           <div class="row row-1">
             {% for feature in features %}
             {% if not features[feature]%}
             <div class="col-md-3">
-              <h4 id="{{feature}}">{{feature}}: data[feature]</h4>
+              <h4 id="{{feature}}">{{feature}}</h4>
             </div>
             {% end %}
             {% end %}
@@ -65,7 +65,7 @@
             {% for feature in features %}
             {% if features[feature]%}
             <div class="col-md-3">
-              <h4 id="{{feature}}">{{feature[5:]}}: data[feature]</h4>
+              <h4 id="{{feature}}">{{feature[5:]}}</h4>
             </div>
             {% end %}
             {% end %}
@@ -74,9 +74,6 @@
         <div class="chart-container">
           <button id="predict" class="btn btn-default">See prediciton</button>
           <div class="data-chart" id="data-chart">
-            <script>
-            new Chartkick.LineChart("data-chart", {{data}});
-            </script>
           </div>
         </div>
       </div>

@@ -10,7 +10,7 @@ import tornado.web
 
 from tornado.options import options
 
-from apps.web.search import SearchHandler
+from apps.web.search import SearchHandler, SearchDetailHandler
 from apps.web.main import IndexHandler
 from apps.web.sample import SampleHandler, SampleDetailHandler
 from apps.predict.main import PredictHandler
@@ -27,7 +27,8 @@ if __name__ == "__main__":
             (r"/predicit", PredictHandler),
             (r"/samples", SampleHandler),
             (r"/samples/([^/]+)", SampleDetailHandler),
-            (r"/search", SearchHandler)
+            (r"/search", SearchHandler),
+            (r"/search/([^/]+)", SearchDetailHandler)
         ],
         template_path=options.template_path,
         static_path=options.static_path

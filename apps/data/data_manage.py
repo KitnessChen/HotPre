@@ -35,7 +35,7 @@ class DataManageDAO(object):
     }
 
     def __init__(self, keyword, time):
-        self.time = time
+        self.cur_time = time
         self.keyword = keyword
         self.data_list = []
         self.user_dict = {}
@@ -47,7 +47,8 @@ class DataManageDAO(object):
         directory = os.path.join(options.rowdata_path, self.keyword)
         if not os.path.exists(directory):
             os.makedirs(directory)
-        content = open(directory + '/%s.txt' % str(self.time), "r")
+        filename = directory + '/' + str(self.cur_time.tm_mon) + "_" + str(self.cur_time.tm_mday) + "_" + str(self.cur_time.tm_hour) + '.txt'
+        content = open(filename, "r")
         if not content:
             return None
         for line in content:
@@ -72,7 +73,6 @@ class DataManageDAO(object):
         data_dict = {}
         final_list = []
         final_dict = {}
-        cur_time = time.localtime(self.time)
         for data in self.data_list:
             t = parse(data[0])
             time_str = datetime(t.year, t.month, t.day, t.hour).isoformat(" ")
@@ -103,11 +103,11 @@ class DataManageDAO(object):
             final_dict[_type] = temp
         final_dict['chart'] = final_list
 
-        filename = directory + '/' + str(cur_time.tm_mon) + "_" + str(cur_time.tm_mday) + "_" + str(cur_time.tm_hour) + '.txt'
+        filename = directory + '/' + str(self.cur_time.tm_mon) + "_" + str(self.cur_time.tm_mday) + "_" + str(self.cur_time.tm_hour) + '.txt'
         outfile = open(filename, "w")
         json.dump(final_dict, outfile)
 
-        return final_list
+        return final_dict
 
     def data_manage(self):
         if self.data_format():
@@ -130,7 +130,7 @@ class DataCollectDAO(object):
         """
         cur_time = time.localtime()
         directory = os.path.join(options.finaldata_path, self.keyword)
-        filename = directory + "/%d_%d_%d.txt" % (cur_time.tm_mon, cur_time.tm_mday, cur_time.tm_hour - 8)
+        filename = directory + "/%d_%d_%d.txt" % (cur_time.tm_mon, cur_time.tm_mday, cur_time.tm_hour)
         if not os.path.isfile(filename):
             return None
         data_file = open(filename, "r")

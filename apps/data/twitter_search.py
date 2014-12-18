@@ -14,18 +14,18 @@ from TwitterSearch import *
 class SearchTopicDAO(object):
     def __init__(self, keyword, time):
         self.keyword = keyword
-        self.time = time
+        self.cur_time = time
 
     def search(self):
-        cur_time = time.localtime(self.time)
-        finalfile = str(cur_time.tm_mon) + "_" + str(cur_time.tm_mday) + "_" + str(cur_time.tm_hour - 8) + '.txt'
-        if os.path.isfile(os.path.join(options.finaldata_path, self.keyword) + '/' + finalfile):
+        rowfile = str(self.cur_time.tm_mon) + "_" + str(self.cur_time.tm_mday) + "_" + str(self.cur_time.tm_hour) + '.txt'
+        if os.path.isfile(os.path.join(options.rowdata_path, self.keyword) + '/' + rowfile):
             return False
         try:
             directory = os.path.join(options.rowdata_path, self.keyword)
             if not os.path.exists(directory):
                 os.makedirs(directory)
-            f = open(directory + '/%s.txt' % str(self.time), "w")
+            filename = directory + '/' + str(self.cur_time.tm_mon) + "_" + str(self.cur_time.tm_mday) + "_" + str(self.cur_time.tm_hour) + '.txt'
+            f = open(filename, "w")
             tso = TwitterSearchOrder() # create a TwitterSearchOrder object
             tso.set_keywords([self.keyword]) # let's define all words we would like to have a look for
 
