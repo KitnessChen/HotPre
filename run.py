@@ -13,7 +13,7 @@ from tornado.options import options
 from apps.web.search import SearchHandler, SearchDetailHandler
 from apps.web.main import IndexHandler
 from apps.web.sample import SampleHandler, SampleDetailHandler
-from apps.predict.main import PredictHandler
+from apps.predict.main import PredictHandler, SamplePredictHandler
 
 from config.define import *
 
@@ -24,7 +24,8 @@ if __name__ == "__main__":
         handlers=[
             (r"/", IndexHandler),
             (r"/home", IndexHandler),
-            (r"/predicit", PredictHandler),
+            (r"/predict", PredictHandler),
+            (r"/predict/sample", SamplePredictHandler),
             (r"/samples", SampleHandler),
             (r"/samples/([^/]+)", SampleDetailHandler),
             (r"/search", SearchHandler),

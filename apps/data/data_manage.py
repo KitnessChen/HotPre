@@ -183,3 +183,117 @@ class SampleDAO(object):
         get sample features
         """
         return SampleDAO.FEATURES
+
+
+class PredictDAO(object):
+    def __init__(self, time, keyword):
+        self.time = time
+        self.keyword = keyword
+
+    def get_origin_data(self):
+        directory = os.path.join(options.rowdata_path, self.keyword)
+        if not os.path.exists(directory):
+            os.makedirs(directory)
+        filename = directory + '/' + str(self.time.tm_mon) + "_" + str(self.time.tm_mday) + "_" + str(self.time.tm_hour) + '.txt'
+        content = json.load(open(filename, "r"))
+        if not content:
+            return None
+
+        data_list = []
+        for _dict in content['chart']:
+            data_dict = {}
+            max_num = 0
+            for _time in _dict['data']:
+                if _dict['data'][_time] > max_num:
+                    max_num = _dict['data'][_time]
+            for _time in _dict['data']:
+                data_dict[_time] = _dict['data'][_time] / float(max_num)
+            data_list.append({'data': data_dict, 'name': _dict['name']})
+
+        return data_list
+
+    def get_final_data(self, data_list):
+        data_dict = {}
+        num = len(data_list[0]['data'])
+        for x in xrange(0, num):
+            time_str = data_list[0]['data'].keys()[x]
+            temp = 0.0
+            for data in data_list:
+                temp += data['data'].get(time_str)
+            data_dict[time_str] = temp / num
+
+        path = os.path.join(options.predictdata_path, self.keyword)
+        if not os.path.exists(path):
+            os.makedirs(path)
+        predict_file = open(path + '/' + str(self.time.tm_mon) + "_" + str(self.time.tm_mday) + "_" + str(self.time.tm_hour) + '.txt', "w")
+        json.dump(data_dict, predict_file)
+
+        return data_dict
+
+    def predict(self):
+        data = self.get_origin_data()
+        if not data:
+            return None
+        return get_origin_data(data)
+
+    def get_hotmark(self):
+        return 'HOT'
+
+
+class SamplePredictDAO(object):
+    def __init__(self, keyword):
+        self.keyword = keyword
+
+    def get_origin_data(self):
+        filename = options.sample_path + '/' + '%s.txt' % self.keyword
+        content = json.load(open(filename, "r"))
+        if not content:
+            return None
+
+        data_list = []
+        for _dict in content['chart']:
+            data_dict = {}
+            max_num = 1
+            for _time in _dict['data']:
+                if int(_dict['data'][_time]) > max_num:
+                    max_num = int(_dict['data'][_time])
+            for _time in _dict['data']:
+                data_dict[_time] = _dict['data'][_time] / float(max_num)
+            data_list.append({'data': data_dict, 'name': _dict['name']})
+
+        return data_list
+
+    def get_final_data(self, data_list):
+        data_dict = {}
+        num = len(data_list[0]['data'])
+        for x in xrange(0, num):
+            time_str = data_list[0]['data'].keys()[x]
+            temp = 0.0
+            for data in data_list:
+                temp += data['data'].get(time_str)
+            data_dict[time_str] = temp / num
+
+        path = os.path.join(options.predictdata_path, 'sample')
+        if not os.path.exists(path):
+            os.makedirs(path)
+        filename = path + '%s.txt' % self.keyword
+        predict_file = open(filename, "w")
+        json.dump(data_dict, predict_file)
+
+        return data_dict
+
+    def predict(self):
+        path = os.path.join(options.predictdata_path, 'sample')
+        if not os.path.exists(path):
+            os.makedirs(path)
+        filename = path + '%s.txt' % self.keyword
+        if os.path.exists(filename):
+            return json.load(open(filename, "r"))
+
+        data = self.get_origin_data()
+        if not data:
+            return None
+        return self.get_final_data(data)
+
+    def get_hotmark(self):
+        return 'HOT'

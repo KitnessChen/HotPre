@@ -7,6 +7,7 @@ define("port", default=8000, help="run on the given port", type=int)
 define("rowdata_path", default="/Users/kitnesschen/spider/HotPre/data/row_data", help="row data path")
 define("finaldata_path", default="/Users/kitnesschen/spider/HotPre/data/final_data", help="final data path")
 define("sample_path", default="/Users/kitnesschen/spider/HotPre/data/samples", help="samples path")
+define("predictdata_path", default="/Users/kitnesschen/spider/HotPre/data/predict_data", help="prediction path")
 
 # static path config
 define("template_path", default="/Users/kitnesschen/spider/HotPre/templates", help="templates path")

@@ -43,29 +43,20 @@ $(document).ready(function(){
         var keyword = $('h4.sample-title').text();
         $('button#predict').text('Please wait....');
         $.ajax({
-            url: '/predict',
-            type: 'post',
+            url: '/predict/sample',
+            type: 'get',
             dataType: 'json',
             data: {'keyword': keyword},
-            success: function(prediction, hot_mark){
+            success: function(res){
+                console.info('success');
                 $('div.predition-chart').css('display', 'block');
                 $('button#predict').css('font-family', 'Times New Roman, serif');
                 $('button#predict').attr('disabled', 'disabled');
-                $('button#predict').text(hot_mark + ' keyword');
-                new Chartkick.LineChart("data-chart", prediction);
+                $('button#predict').text(res['msg']['hot_mark'] + ' keyword');
+                new Chartkick.LineChart("data-chart", res['msg']['data']);
             },
-            error: function(msg){
-                $('div.predition-chart').css('display', 'block');
-                $('button#predict').css('font-family', 'Times New Roman, serif');
-                $('button#predict').attr('disabled', 'disabled');
-                $('button#predict').text('HOT keyword');
-                data = [
-                {"name":"test 1", "data": {"2013-02-10 00:00:00 -0800": 3, "2013-02-13 00:00:00 -0800": 2, "2013-02-17 00:00:00 -0800": 4}},
-                {"name":"test 2", "data": {"2013-02-10 00:00:00 -0800": 5, "2013-02-13 00:00:00 -0800": 9, "2013-02-17 00:00:00 -0800": 3}},
-                {"name":"test 3", "data": {"2013-02-10 00:00:00 -0800": 6, "2013-02-13 00:00:00 -0800": 3, "2013-02-17 00:00:00 -0800": 9}},
-                {"name":"test 4", "data": {"2013-02-10 00:00:00 -0800": 2, "2013-02-13 00:00:00 -0800": 1, "2013-02-17 00:00:00 -0800": 3}}
-                ];
-                new Chartkick.LineChart("data-chart", data);
+            error: function(res){
+                console.log(res['error']);
             }
         });
     });
