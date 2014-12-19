@@ -31,16 +31,16 @@ $(document).ready(function(){
         $('button#predict').text('Please wait....');
         $.ajax({
             url: '/predict',
-            type: 'post',
+            type: 'get',
             dataType: 'json',
             data: {'keyword': keyword, 'cur_time':cur_time},
-            success: function(msg){
+            success: function(res){
                 console.info('success');
                 $('div.predition-chart').css('display', 'block');
                 $('button#predict').css('font-family', 'Times New Roman, serif');
                 $('button#predict').attr('disabled', 'disabled');
-                $('button#predict').text(hot_mark + ' keyword');
-                new Chartkick.LineChart("data-chart", res['msg']);
+                $('button#predict').text(res['msg']['hot_mark'] + ' keyword');
+                new Chartkick.LineChart("data-chart", res['msg']['data']);
             },
             error: function(res){
                 console.log(res['error']);

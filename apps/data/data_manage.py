@@ -191,7 +191,7 @@ class PredictDAO(object):
         self.keyword = keyword
 
     def get_origin_data(self):
-        directory = os.path.join(options.rowdata_path, self.keyword)
+        directory = os.path.join(options.finaldata_path, self.keyword)
         if not os.path.exists(directory):
             os.makedirs(directory)
         filename = directory + '/' + str(self.time.tm_mon) + "_" + str(self.time.tm_mday) + "_" + str(self.time.tm_hour) + '.txt'
@@ -202,10 +202,10 @@ class PredictDAO(object):
         data_list = []
         for _dict in content['chart']:
             data_dict = {}
-            max_num = 0
+            max_num = 1
             for _time in _dict['data']:
-                if _dict['data'][_time] > max_num:
-                    max_num = _dict['data'][_time]
+                if int(_dict['data'][_time]) > max_num:
+                    max_num = int(_dict['data'][_time])
             for _time in _dict['data']:
                 data_dict[_time] = _dict['data'][_time] / float(max_num)
             data_list.append({'data': data_dict, 'name': _dict['name']})
@@ -218,9 +218,17 @@ class PredictDAO(object):
         for x in xrange(0, num):
             time_str = data_list[0]['data'].keys()[x]
             temp = 0.0
+            count = num
             for data in data_list:
-                temp += data['data'].get(time_str)
-            data_dict[time_str] = temp / num
+                if data['name'] == 'twitters':
+                    temp += 120 * data['data'].get(time_str)
+                    count += 120
+                elif data['name'][0] != 'u':
+                    temp += 20 * data['data'].get(time_str)
+                    count += 20
+                else:
+                    temp += data['data'].get(time_str)
+            data_dict[time_str] = temp / count
 
         path = os.path.join(options.predictdata_path, self.keyword)
         if not os.path.exists(path):
@@ -234,10 +242,16 @@ class PredictDAO(object):
         data = self.get_origin_data()
         if not data:
             return None
-        return get_origin_data(data)
+        return self.get_final_data(data)
 
     def get_hotmark(self):
-        return 'HOT'
+        path = os.path.join(options.predictdata_path, self.keyword)
+        predict_file = path + '/' + str(self.time.tm_mon) + "_" + str(self.time.tm_mday) + "_" + str(self.time.tm_hour) + '.txt'
+        data = json.load(open(predict_file, "r"))
+        for value in data.values():
+            if value >= 1.0:
+                return 'HOT'
+        return 'NOT HOT'
 
 
 class SamplePredictDAO(object):
@@ -269,14 +283,22 @@ class SamplePredictDAO(object):
         for x in xrange(0, num):
             time_str = data_list[0]['data'].keys()[x]
             temp = 0.0
+            count = num
             for data in data_list:
-                temp += data['data'].get(time_str)
-            data_dict[time_str] = temp / num
+                if data['name'] == 'twitters':
+                    temp += 120 * data['data'].get(time_str)
+                    count += 120
+                elif data['name'][0] != 'u':
+                    temp += 20 * data['data'].get(time_str)
+                    count += 20
+                else:
+                    temp += data['data'].get(time_str)
+            data_dict[time_str] = temp / count
 
         path = os.path.join(options.predictdata_path, 'sample')
         if not os.path.exists(path):
             os.makedirs(path)
-        filename = path + '%s.txt' % self.keyword
+        filename = path + '/%s.txt' % self.keyword
         predict_file = open(filename, "w")
         json.dump(data_dict, predict_file)
 
@@ -286,7 +308,7 @@ class SamplePredictDAO(object):
         path = os.path.join(options.predictdata_path, 'sample')
         if not os.path.exists(path):
             os.makedirs(path)
-        filename = path + '%s.txt' % self.keyword
+        filename = path + '/%s.txt' % self.keyword
         if os.path.exists(filename):
             return json.load(open(filename, "r"))
 
@@ -296,4 +318,10 @@ class SamplePredictDAO(object):
         return self.get_final_data(data)
 
     def get_hotmark(self):
-        return 'HOT'
+        path = os.path.join(options.predictdata_path, 'sample')
+        filename = path + '/%s.txt' % self.keyword
+        data = json.load(open(filename, "r"))
+        for value in data.values():
+            if value >= 0.8:
+                return 'HOT'
+        return 'NOT HOT'

@@ -14,7 +14,7 @@ class PredictHandler(BaseHandler):
         if not keyword or not cur_time:
             return self.render_json('ajax/fail.json', error=u'')
         data = PredictDAO(cur_time, keyword).predict()
-        hot_mark = SamplePredictDAO(keyword).get_hotmark()
+        hot_mark = PredictDAO(cur_time, keyword).get_hotmark()
         return self.render_json('ajax/success.json', msg={'data':data,'hot_mark':hot_mark})
 
 
