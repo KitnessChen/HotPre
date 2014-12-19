@@ -249,7 +249,7 @@ class PredictDAO(object):
         predict_file = path + '/' + str(self.time.tm_mon) + "_" + str(self.time.tm_mday) + "_" + str(self.time.tm_hour) + '.txt'
         data = json.load(open(predict_file, "r"))
         for value in data.values():
-            if value >= 1.0:
+            if value >= 0.8:
                 return 'HOT'
         return 'NOT HOT'
 
